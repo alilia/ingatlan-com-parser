@@ -24,7 +24,7 @@ class IngatlanComParser(object):
                 url_items.append({
                     "address": item.select("div.listing__address")[0].string,
                     "price": item.select("div.price")[0].string,
-                    "link": "https://ingatlan.com/" + "0",
+                    "link": "https://ingatlan.com/" + item["data-id"],
                 })
 
             next_link_tag = url_soup.find_all("link", attrs={
