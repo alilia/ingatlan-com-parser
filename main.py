@@ -5,7 +5,7 @@ import MapVisualizer as mv
 
 def main():
     """welcome to the jungle"""
-    ingatlan_com = ic.IngatlanComParser("https://ingatlan.com/budapest/kiado+garazs")
+    ingatlan_com = ic.IngatlanComParser("https://ingatlan.com/budapest/kiado+garazs?page=17")
     parsed_ingatlan_com = ingatlan_com.parse()
 
     map_visualiser = mv.MapVisualizer()
