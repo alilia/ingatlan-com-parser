@@ -2,17 +2,41 @@
 
 import urllib2
 import json
+import os
+import webbrowser
 
 API_KEY = "AIzaSyDYhJgmIjXp-HPUbECydNXkPsXaQ4SYaB8"
 
 class MapVisualizer(object):
     """MapVisualizer"""
     def __init__(self):
-        pass
+        self._mapitems = []
 
     def generate(self):
         """generate"""
-        pass
+
+        output_items = []
+        for item in self._mapitems:
+            output_items.append(item.data())
+
+        json_dump = json.dumps(output_items)
+        output_json = open("MapVisualizer.json", "w")
+        output_json.write("data = '" + json_dump + "'")
+        output_json.close()
+        return json_dump
+
+    def add(self, mapitem):
+        """add"""
+        if isinstance(mapitem, MapItem):
+            self._mapitems.append(mapitem)
+            return True
+        else:
+            raise Exception("MapVisualizer", "Cannot add to MapVisualizer non-MapItems")
+
+    def display(self):
+        """display"""
+        webbrowser.open_new("file:///" + os.getcwd() + "/MapVisualizer.html")
+        return True
 
 class MapItem(object):
     """MapItem"""
@@ -51,3 +75,12 @@ class MapItem(object):
         url = "https://maps.googleapis.com/maps/api/geocode/json?{}&key={}".format(url_content, API_KEY)
 
         return json.loads(urllib2.urlopen(url).read())
+
+    def data(self):
+        """data"""
+        return {
+            "price": self._price,
+            "address": self._address,
+            "latlng": self._latlng,
+            "link": self._link,
+        }
