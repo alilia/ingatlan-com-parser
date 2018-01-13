@@ -57,4 +57,4 @@ class IngatlanComParser(object):
     @staticmethod
     def is_url_valid(url):
         "Method to test, if the given URL passes class's \"requirements\""
-        return re.search(r"http(s)?:\/\/(www.)?ingatlan.com\/([\w|\+|\/]*)", url)
+        return re.search(r"http(s)?:\/\/(www.)?ingatlan.com\/([\w|\+|\/]*)(\?page=[0-9])?", url)
