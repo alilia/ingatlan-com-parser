@@ -27,13 +27,13 @@ class MapItem(object):
             self._json = self.get_json()
             self._latlng = {
                 "lat": self._json["results"][0]["geometry"]["location"]["lat"],
-                "lon": self._json["results"][0]["geometry"]["location"]["lng"],
+                "lng": self._json["results"][0]["geometry"]["location"]["lng"],
             }
-            self._address = self._json["results"][0]["address_components"]["formatted_address"] # just te make everything consistent
+            self._address = self._json["results"][0]["formatted_address"] # just te make everything consistent
         else:
             self._latlng = latlng # should be a dict: {"lat": 0.00, "lng": 0.00}
             self._json = self.get_json()
-            self._address = self._json["results"][0]["address_components"]["formatted_address"]
+            self._address = self._json["results"][0]["formatted_address"]
 
     @staticmethod
     def normalise_address(address):
