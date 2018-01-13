@@ -41,6 +41,8 @@ class IngatlanComParser(object):
                 else:
                     self._url = ""
                     raise Exception("IngatlanComParser", "Can't fetch next url on " + self._url)
+            else:
+                self._url = ""
 
         self._url = self._start_url
         return url_items
