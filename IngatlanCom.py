@@ -14,17 +14,17 @@ class IngatlanComParser(object):
 
     def parse(self): # do I have to intorduce another def _parse(self) layer?
         "Method to iterate throug all the pages starting with self._start_url"
-        url_items = {}
+        url_items = []
 
         while self._url != "":
             url_soup = self.get_and_cook_content()
 
             # parse all listings
             for item in url_soup.find_all("div", class_="listing"):
-                url_soup.append({
-                    item.select("div.listing__address")[0].string,
-                    item.select("div.price")[0].string,
-                    "https://ingatlan.com/" + 0,
+                url_items.append({
+                    "address": item.select("div.listing__address")[0].string,
+                    "price": item.select("div.price")[0].string,
+                    "link": "https://ingatlan.com/" + "0",
                 })
 
             next_link_tag = url_soup.find_all("link", attrs={
