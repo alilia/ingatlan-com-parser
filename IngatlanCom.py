@@ -1,11 +1,11 @@
-"""This module has just the class implemented, nothing else."""
+"""Please see the class descriptions for more information"""
 
 import re
 import urllib2
 from bs4 import BeautifulSoup
 
 class IngatlanComParser(object):
-    "Class definition for parsing ingatlan.com pages for listings"
+    "Basic iterator and listing parser for ingatlan.com search result pages. Returns a list with all the found listings in it."
     def __init__(self, url):
         if self.is_url_valid(url):
             self._start_url = self._url = url
@@ -13,7 +13,7 @@ class IngatlanComParser(object):
             raise Exception("IngatlanComParser", "Invalid init url")
 
     def parse(self): # do I have to intorduce another def _parse(self) layer?
-        "Method to iterate throug all the pages starting with self._start_url"
+        "Method to iterate through all the pages starting with self._start_url"
         url_items = []
 
         while self._url != "":

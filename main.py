@@ -1,10 +1,10 @@
-"""'sup my nigga"""
+"""Current Python code parses ingatlan.com links for all the listings, requests necessary inforamtion from Google Maps API and dumps it to a JSON. Some HTML/JS magic visualizes it on a Google Maps canvas."""
 
 import IngatlanCom as ic
 import MapVisualizer as mv
 
 def populate_mapvisualizer(to_parse):
-    """populate_mapvisualizer"""
+    "Creates, populates and returns a MapVisualizer object"
     mapvisualizer = mv.MapVisualizer()
 
     for item in to_parse:
@@ -17,7 +17,7 @@ def populate_mapvisualizer(to_parse):
     return mapvisualizer
 
 def main():
-    """welcome to the jungle"""
+    "Welcome to the jungle"
     mapvisualizer = mv.MapVisualizer()
 
     urls_to_parse = [

@@ -1,18 +1,19 @@
-"""This module has just a class implemented, nothing else."""
+"""Please see the class descriptions for more information"""
 
 import urllib2
 import json
 import os
 import webbrowser
 
-API_KEY = "AIzaSyDYhJgmIjXp-HPUbECydNXkPsXaQ4SYaB8"
+API_KEY = "AIzaSyDYhJgmIjXp-HPUbECydNXkPsXaQ4SYaB8" # you have found a candy
 
 class MapVisualizer(object):
-    """MapVisualizer"""
+    "MapVisualizer is to create an object to contain a list or lists of MapItem objects. You can .generate() a JSON and .display() the default Google Maps map."
     def __init__(self):
         self._mapitems = [[]]
 
     def __add__(self, other):
+        "When adding two instances of MapVisualizer, their mapitems are concatanated"
         mapitems_self = self.mapitems
         mapitems_other = other.mapitems
         self._mapitems = []
@@ -30,7 +31,7 @@ class MapVisualizer(object):
         return self
 
     def generate(self):
-        """generate"""
+        "Generates JSON of mapitems"
 
         output_items = []
         def lets_get_deep(mapitems):
@@ -52,7 +53,7 @@ class MapVisualizer(object):
         return json_dump
 
     def add(self, mapitem):
-        """add"""
+        "Method to populate mapitems"
         if isinstance(mapitem, MapItem):
             self._mapitems[0].append(mapitem)
             return True
@@ -67,17 +68,17 @@ class MapVisualizer(object):
             raise Exception("MapVisualizer", "Cannot add to MapVisualizer non-MapItems")
 
     def display(self):
-        """display"""
+        "Displays Google Maps map in default browser"
         webbrowser.open_new("file:///" + os.getcwd() + "/MapVisualizer.html")
         return True
 
     @property
     def mapitems(self):
-        """mapitems"""
+        "No comment"
         return self._mapitems
 
 class MapItem(object):
-    """MapItem"""
+    "MapItem is to contain all the necessary information for a listing to appear on a map. When initializing, it requests all the missing information from Google Maps API."
     def __init__(self, link, price, address=None, latlng=None):
         if not (address or latlng) or not link or not price:
             raise Exception("MapItem", "Missing parameters")
@@ -99,11 +100,11 @@ class MapItem(object):
 
     @staticmethod
     def normalise_address(address):
-        """normalise_address"""
+        "Formats address string for Google Maps API"
         return address.replace(" ", "+").encode("utf-8")
 
     def get_json(self, url=""):
-        """get_json"""
+        "Requests JSON information from Google Maps API"
         if url == "":
             if self._address:
                 url_content = "address={}".format(self.normalise_address(self._address))
@@ -116,7 +117,7 @@ class MapItem(object):
 
     @property
     def data(self):
-        """data"""
+        "No comment"
         return {
             "price": self._price,
             "address": self._address,
