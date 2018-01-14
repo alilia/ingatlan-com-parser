@@ -32,7 +32,7 @@ class IngatlanComParser(object):
             })
 
             # find next url
-            if len(next_link_tag) > 0:
+            if next_link_tag:
                 next_link_candidat = next_link_tag[0]["href"]
                 if self.is_url_valid(next_link_candidat):
                     self._url = next_link_candidat
