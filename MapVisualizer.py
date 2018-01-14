@@ -10,14 +10,40 @@ API_KEY = "AIzaSyDYhJgmIjXp-HPUbECydNXkPsXaQ4SYaB8"
 class MapVisualizer(object):
     """MapVisualizer"""
     def __init__(self):
+        self._mapitems = [[]]
+
+    def __add__(self, other):
+        mapitems_self = self.mapitems
+        mapitems_other = other.mapitems
         self._mapitems = []
+
+        if mapitems_self:
+            for mapitems in mapitems_self:
+                if mapitems:
+                    self._mapitems.append(mapitems)
+
+        if mapitems_other:
+            for mapitems in mapitems_other:
+                if mapitems:
+                    self._mapitems.append(mapitems)
+
+        return self
 
     def generate(self):
         """generate"""
 
         output_items = []
-        for item in self._mapitems:
-            output_items.append(item.data())
+        def lets_get_deep(mapitems):
+            """lets_get_deep"""
+            for idx, value in enumerate(mapitems):
+                if isinstance(value, list):
+                    mapitems[idx] = lets_get_deep(value)
+                else:
+                    mapitems[idx] = value.data
+
+            return mapitems
+
+        output_items = lets_get_deep(self.mapitems)
 
         json_dump = json.dumps(output_items)
         output_json = open("MapVisualizer.json", "w")
@@ -28,6 +54,13 @@ class MapVisualizer(object):
     def add(self, mapitem):
         """add"""
         if isinstance(mapitem, MapItem):
+            self._mapitems[0].append(mapitem)
+            return True
+        elif isinstance(mapitem, list):
+            for item in mapitem:
+                if not isinstance(item, mapitem):
+                    raise Exception("MapVisualizer", "Cannot add to MapVisualizer non-MapItems")
+
             self._mapitems.append(mapitem)
             return True
         else:
@@ -37,6 +70,11 @@ class MapVisualizer(object):
         """display"""
         webbrowser.open_new("file:///" + os.getcwd() + "/MapVisualizer.html")
         return True
+
+    @property
+    def mapitems(self):
+        """mapitems"""
+        return self._mapitems
 
 class MapItem(object):
     """MapItem"""
@@ -76,6 +114,7 @@ class MapItem(object):
 
         return json.loads(urllib2.urlopen(url).read())
 
+    @property
     def data(self):
         """data"""
         return {

@@ -3,22 +3,36 @@
 import IngatlanCom as ic
 import MapVisualizer as mv
 
+def populate_mapvisualizer(to_parse):
+    """populate_mapvisualizer"""
+    mapvisualizer = mv.MapVisualizer()
+
+    for item in to_parse:
+        mapvisualizer.add(mv.MapItem(
+            address=item["address"],
+            price=item["price"],
+            link=item["link"],
+        ))
+
+    return mapvisualizer
+
 def main():
     """welcome to the jungle"""
-    ingatlan_com = ic.IngatlanComParser("https://ingatlan.com/budapest/kiado+garazs?page=17")
-    parsed_ingatlan_com = ingatlan_com.parse()
+    mapvisualizer = mv.MapVisualizer()
 
-    map_visualiser = mv.MapVisualizer()
-    for item in parsed_ingatlan_com:
-        pass
-    #     map_visualiser.add(mv.MapItem(
-    #         address=item["address"],
-    #         price=item["price"],
-    #         link=item["link"],
-    #     ))
+    urls_to_parse = [
+        "https://ingatlan.com/budapest/kiado+garazs",
+        "https://ingatlan.com/budapest/elado+garazs",
+    ]
 
-    # map_visualiser.generate()
-    # map_visualiser.display()
+    for url in urls_to_parse:
+        ingatlan_com = ic.IngatlanComParser(url)
+        parsed_ingatlan_com = ingatlan_com.parse()
+        retval = populate_mapvisualizer(parsed_ingatlan_com)
+        mapvisualizer += retval
+
+    mapvisualizer.generate()
+    mapvisualizer.display()
 
     return False
 
